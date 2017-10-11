@@ -1,3 +1,4 @@
+
 #******************************************************************************
 # Copyright (C) 2017 by Alex Fosdick - University of Colorado
 #
@@ -9,9 +10,30 @@
 #
 #*****************************************************************************
 
+HOME = ..
 # Add your Source files to this variable
-SOURCES =
+ifeq ($(PLATFORM),MSP432)
+SOURCES = main.c \
+	memory.c \
+	startup_msp432p401r_gcc.c \
+	interrupts_msp432p401r_gcc.c \
+	system_msp432p401r.c
+else
+SOURCES = main.c \
+	memory.c		
+endif
 
 # Add your include paths to this variable
-INCLUDES = 
 
+ifeq ($(PLATFORM),MSP432)
+INCLUDES = -I $(HOME) \
+	-I $(HOME)/include/CMSIS \
+	-I $(HOME)/include/common \
+	-I $(HOME)/include/msp432 \
+	-I $(HOME)/src \
+		
+else
+INCLUDES = -I $(HOME)/include/common \
+	-I $(HOME)/src \
+	-I $(HOME)
+endif
